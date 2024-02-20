@@ -419,6 +419,11 @@ class Builder:
         else:
             self._read_serial(docnames)
 
+        # check if the root_doc in the include_patterns
+        if self.config.root_doc not in self.config.exclude_patterns:
+            raise SphinxError('root file %s not in the Project Document' %
+                              self.env.doc2path(self.config.root_doc))
+
         if self.config.root_doc not in self.env.all_docs:
             raise SphinxError('root file %s not found' %
                               self.env.doc2path(self.config.root_doc))
