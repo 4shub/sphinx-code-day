@@ -420,9 +420,13 @@ class Builder:
             self._read_serial(docnames)
 
         if self.config.root_doc not in self.env.all_docs:
-            raise SphinxError('root file %s not found' %
-                              self.env.doc2path(self.config.root_doc))
-
+            if "**" not in self.config.include_patterns:
+                raise SphinxError('customized include_patterns is set, but root file %s not in the include_patterns' %
+                        self.env.doc2path(self.config.root_doc))
+            else: 
+                raise SphinxError('root file %s not found' %
+                                self.env.doc2path(self.config.root_doc))
+    
         for retval in self.events.emit('env-updated', self.env):
             if retval is not None:
                 docnames.extend(retval)
